@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arsi University - HR Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        color: white;
+        text-align: center;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+      }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+      .loading {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .info {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        text-align: left;
+      }
+      .info h3 {
+        margin-top: 0;
+      }
+      .btn {
+        display: inline-block;
+        background: white;
+        color: #667eea;
+        padding: 12px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: transform 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Arsi University</h1>
+      <h2>Human Resource Management System</h2>
+
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+
+      <p>Redirecting to login page...</p>
+      <!-- 
+      <div class="info">
+        <h3>📋 System Features:</h3>
+        <ul>
+          <li>👥 Employee Directory & Management</li>
+          <li>📅 Leave Request System</li>
+          <li>🎂 Upcoming Birthdays</li>
+          <li>📊 Dashboard Analytics</li>
+          <li>🔐 Role-based Access (Admin/Employee)</li>
+        </ul>
+      </div> -->
+
+      <a href="/login" class="btn">Go to Login Page</a>
+
+      <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8">
+        <p>
+          If redirection doesn't happen in 5 seconds, click the button above.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Auto-redirect after 3 seconds
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
+
+      // Check if user is already logged in
+      fetch("/api/auth/check")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.authenticated) {
+            if (data.user.role === "admin") {
+              window.location.href = "/admin-dashboard";
+            } else {
+              window.location.href = "/employee-dashboard";
+            }
+          }
+        });
+    </script>
+  </body>
+</html>

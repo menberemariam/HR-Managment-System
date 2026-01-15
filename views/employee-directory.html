@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Directory - Arsi HR Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <h1>Arsi HR Hub</h1>
+          <p>HR Management System</p>
+        </div>
+
+        <div class="menu">
+          <a href="employee-dashboard.html" class="menu-item">
+            <i class="menu-icon fas fa-tachometer-alt"></i>
+            Dashboard
+          </a>
+          <a href="employee-directory.html" class="menu-item active">
+            <i class="menu-icon fas fa-users"></i>
+            Employees
+          </a>
+          <a href="leave-management.html" class="menu-item">
+            <i class="menu-icon fas fa-calendar-alt"></i>
+            Leave Management
+          </a>
+          <a href="profile.html" class="menu-item">
+            <i class="menu-icon fas fa-user"></i>
+            Profile
+          </a>
+          <a href="#" id="logoutBtn" class="menu-item">
+            <i class="menu-icon fas fa-sign-out-alt"></i>
+            Sign Out
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h2>Employee Directory</h2>
+          <p>Browse and search all staff members</p>
+        </div>
+
+        <!-- Search and Filter -->
+        <div
+          style="
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+          "
+        >
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Search by name, email, or department..."
+            style="flex: 1"
+          />
+          <select
+            id="departmentFilter"
+            class="form-control"
+            style="width: 200px"
+          >
+            <option value="All Departments">All Departments</option>
+            <!-- Departments will be loaded dynamically -->
+          </select>
+          <button
+            id="addEmployeeBtn"
+            class="btn"
+            style="width: auto; padding: 10px 20px"
+          >
+            <i class="fas fa-plus"></i> Add Employee
+          </button>
+        </div>
+
+        <p id="employeeCount" style="color: #666; margin-bottom: 15px">
+          Showing 0 of 0 employees
+        </p>
+
+        <div class="table-container">
+          <div style="overflow-x: auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Position</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="employeesTable">
+                <!-- Data will be loaded dynamically -->
+                <tr>
+                  <td
+                    colspan="6"
+                    style="text-align: center; padding: 40px; color: #666"
+                  >
+                    Loading employees...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="addEmployeeModal" class="modal">
+      <div class="modal-content">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <h3>Add New Employee</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+
+        <!-- FORM WITH method="POST" and onsubmit="return false;" -->
+        <form id="addEmployeeForm" method="POST" onsubmit="return false;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input
+                type="text"
+                name="fullName"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" name="email" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>Department *</label>
+              <select name="department" class="form-control" required>
+                <option value="">Select Department</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Business Administration">
+                  Business Administration
+                </option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Natural Sciences">Natural Sciences</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Position *</label>
+              <input
+                type="text"
+                name="position"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Phone *</label>
+              <input type="tel" name="phone" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>Date of Birth *</label>
+              <input
+                type="date"
+                name="dateOfBirth"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+
+          <div
+            style="
+              margin-top: 20px;
+              display: flex;
+              gap: 10px;
+              justify-content: flex-end;
+            "
+          >
+            <button
+              type="button"
+              class="btn"
+              style="background: #666; width: auto"
+              onclick="document.getElementById('addEmployeeModal').style.display='none'"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn" style="width: auto">
+              Add Employee
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Debug form submission
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("addEmployeeForm");
+        if (form) {
+          console.log("Form found, adding debug listener");
+
+          form.addEventListener("submit", function (e) {
+            console.log("Form submit event fired");
+            console.log("Default prevented?", e.defaultPrevented);
+            console.log("Form method:", form.method);
+            console.log("Form action:", form.action);
+          });
+        }
+      });
+    </script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/employees.js"></script>
+  </body>
+</html>

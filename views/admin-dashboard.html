@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Arsi HR Hub</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <h1>Arsi HR Hub</h1>
+          <p>HR Management System</p>
+        </div>
+
+        <div class="menu">
+          <a href="admin-dashboard.html" class="menu-item active">
+            <i class="menu-icon fas fa-tachometer-alt"></i>
+            Dashboard
+          </a>
+          <a href="employee-directory.html" class="menu-item">
+            <i class="menu-icon fas fa-users"></i>
+            Employees
+          </a>
+          <a href="leave-management.html" class="menu-item">
+            <i class="menu-icon fas fa-calendar-alt"></i>
+            Leave Management
+          </a>
+          <a href="profile.html" class="menu-item">
+            <i class="menu-icon fas fa-user"></i>
+            Profile
+          </a>
+          <a href="#" id="logoutBtn" class="menu-item">
+            <i class="menu-icon fas fa-sign-out-alt"></i>
+            Sign Out
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h2>Admin Dashboard</h2>
+          <p>Welcome back, <span id="userName">Admin</span></p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 id="totalEmployees">0</h3>
+            <p>Total Employees</p>
+            <small>Active staff members</small>
+          </div>
+          <div class="stat-card">
+            <h3 id="pendingLeaves">0</h3>
+            <p>Pending Leaves</p>
+            <small>Awaiting approval</small>
+          </div>
+          <div class="stat-card">
+            <h3 id="approvedLeaves">0</h3>
+            <p>Approved Leaves</p>
+            <small>This month</small>
+          </div>
+          <div class="stat-card">
+            <h3 id="rejectedLeaves">0</h3>
+            <p>Rejected Leaves</p>
+            <small>This month</small>
+          </div>
+        </div>
+
+        <!-- Recent Leave Requests -->
+        <div class="table-container">
+          <h3>Recent Leave Requests</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Leave Period</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="leaveRequestsTable">
+              <!-- Data will be loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Upcoming Birthdays -->
+        <div class="table-container">
+          <h3>Upcoming Birthdays</h3>
+          <div id="upcomingBirthdays">
+            <!-- Data will be loaded dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
+  </body>
+</html>

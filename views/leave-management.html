@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leave Management - Arsi HR Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <h1>Arsi HR Hub</h1>
+          <p>HR Management System</p>
+        </div>
+
+        <div class="menu">
+          <a href="admin-dashboard.html" class="menu-item">
+            <i class="menu-icon fas fa-tachometer-alt"></i>
+            Dashboard
+          </a>
+          <a href="employee-directory.html" class="menu-item">
+            <i class="menu-icon fas fa-users"></i>
+            Employees
+          </a>
+          <a href="leave-management.html" class="menu-item active">
+            <i class="menu-icon fas fa-calendar-alt"></i>
+            Leave Management
+          </a>
+          <a href="profile.html" class="menu-item">
+            <i class="menu-icon fas fa-user"></i>
+            Profile
+          </a>
+          <a href="#" id="logoutBtn" class="menu-item">
+            <i class="menu-icon fas fa-sign-out-alt"></i>
+            Sign Out
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <h2>Leave Management</h2>
+          <p>Review and manage leave requests</p>
+        </div>
+
+        <!-- For Admin: Leave Requests -->
+        <div id="adminLeaveSection" style="display: none">
+          <div style="display: flex; gap: 10px; margin-bottom: 20px">
+            <button class="filter-btn btn active" data-filter="pending">
+              Pending (<span id="pendingCount">0</span>)
+            </button>
+            <button class="filter-btn btn" data-filter="approved">
+              Approved (<span id="approvedCount">0</span>)
+            </button>
+            <button class="filter-btn btn" data-filter="rejected">
+              Rejected (<span id="rejectedCount">0</span>)
+            </button>
+            <button class="filter-btn btn" data-filter="all">
+              All Requests
+            </button>
+          </div>
+
+          <div id="adminLeaveList" class="table-container">
+            <!-- Admin leave requests will be loaded here -->
+            <div style="text-align: center; padding: 40px; color: #666">
+              Loading leave requests...
+            </div>
+          </div>
+        </div>
+
+        <!-- For Employee: Apply for Leave -->
+        <div id="employeeLeaveSection" style="display: none">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3 id="leaveBalance">0</h3>
+              <p>Leave Balance</p>
+              <small>Days remaining</small>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <h3>Apply for Leave</h3>
+            <form id="applyLeaveForm">
+              <input type="hidden" id="employeeId" name="employeeId" value="" />
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 20px;
+                  margin-bottom: 20px;
+                "
+              >
+                <div class="form-group">
+                  <label>Leave Type *</label>
+                  <select name="leaveType" class="form-control" required>
+                    <option value="annual">Annual Leave</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="emergency">Emergency Leave</option>
+                    <option value="maternity">Maternity Leave</option>
+                    <option value="paternity">Paternity Leave</option>
+                    <option value="unpaid">Unpaid Leave</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Start Date *</label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>End Date *</label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    name="endDate"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group" style="grid-column: span 2">
+                  <label>Reason *</label>
+                  <textarea
+                    name="reason"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Please provide a reason for your leave request..."
+                    required
+                  ></textarea>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn"
+                style="width: auto; padding: 10px 30px"
+              >
+                Submit Leave Request
+              </button>
+            </form>
+          </div>
+
+          <!-- My Leaves History -->
+          <div class="table-container">
+            <h3>My Leave History</h3>
+            <div id="employeeLeaveList">
+              <!-- Employee leave history will be loaded here -->
+              <div style="text-align: center; padding: 40px; color: #666">
+                Loading leave history...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/leaves.js"></script>
+  </body>
+</html>
