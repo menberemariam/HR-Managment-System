@@ -45,7 +45,7 @@ class Auth {
     const password = document.getElementById("password").value;
     const errorDiv = document.getElementById("errorMessage");
     const submitBtn = document.querySelector(
-      '#loginForm button[type="submit"]'
+      '#loginForm button[type="submit"]',
     );
 
     if (!email || !password) {

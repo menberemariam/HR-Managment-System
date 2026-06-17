@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -107,7 +107,6 @@
                   <th>Position</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="employeesTable">
@@ -208,7 +207,10 @@
               type="button"
               class="btn"
               style="background: #666; width: auto"
-              onclick="document.getElementById('addEmployeeModal').style.display='none'"
+              onclick="
+                document.getElementById('addEmployeeModal').style.display =
+                  'none'
+              "
             >
               Cancel
             </button>

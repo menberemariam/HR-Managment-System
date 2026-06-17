@@ -5,11 +5,6 @@ const session = require("express-session");
 const path = require("path");
 const cors = require("cors");
 
-const authRoutes = require("./routes/auth");
-const employeeRoutes = require("./routes/employees");
-const leaveRoutes = require("./routes/leaves");
-const profileRoutes = require("./routes/profile");
-
 const app = express();
 
 // Middleware
@@ -26,7 +21,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
-  })
+  }),
 );
 
 // Database connection
@@ -35,10 +30,24 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(async () => {
+    console.log("✅ Connected to MongoDB");
+    try {
+      const { seedUsers } = require("./routes/auth");
+      await seedUsers();
+    } catch (err) {
+      console.error("Auto-seed error:", err);
+    }
+  })
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Routes
+// ⭐⭐⭐ IMPORTANT: REQUIRE ROUTES CORRECTLY ⭐⭐⭐
+const authRoutes = require("./routes/auth");
+const employeeRoutes = require("./routes/employees");
+const leaveRoutes = require("./routes/leaves");
+const profileRoutes = require("./routes/profile");
+
+// Routes - MAKE SURE THESE ARE ROUTERS, NOT OBJECTS
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/leaves", leaveRoutes);
@@ -113,21 +122,25 @@ app.get("/change-password", (req, res) => {
 });
 
 // Other route handlers for HTML files...
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log("✅ Routes loaded:");
+  console.log("   - /api/auth");
+  console.log("   - /api/employees");
+  console.log("   - /api/leaves");
+  console.log("   - /api/profile");
 });
 
 server.on("error", (err) => {
   if (err.code === "EADDRINUSE") {
-    console.log(`Port ${PORT} is busy, trying ${PORT + 1}...`);
+    console.log(`❌ Port ${PORT} is busy, trying ${PORT + 1}...`);
     const newPort = parseInt(PORT) + 1;
     const newServer = app.listen(newPort, () => {
-      console.log(`Server running on port ${newPort}`);
+      console.log(`✅ Server running on port ${newPort}`);
     });
   } else {
-    console.error("Server error:", err);
+    console.error("❌ Server error:", err);
   }
 });

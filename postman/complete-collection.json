@@ -1,0 +1,287 @@
+{
+  "info": {
+    "_postman_id": "hr-system-complete",
+    "name": "HR System API - Complete",
+    "description": "Complete Employee Leave Management System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          }
+        },
+        {
+          "name": "Check Auth Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/check",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "check"]
+            }
+          }
+        },
+        {
+          "name": "Seed Initial Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/seed",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "seed"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/employees",
+              "host": ["{{base_url}}"],
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"department\": \"IT\",\n  \"position\": \"Software Developer\",\n  \"phone\": \"1234567890\",\n  \"dateOfBirth\": \"1990-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/employees",
+              "host": ["{{base_url}}"],
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Get Departments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/employees/departments/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "employees", "departments", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/employees/stats/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "employees", "stats", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leaves",
+      "item": [
+        {
+          "name": "Apply for Leave",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"2024-12-20\",\n  \"endDate\": \"2024-12-25\",\n  \"reason\": \"Annual vacation\",\n  \"leaveType\": \"annual\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/leaves/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "leaves", "apply"]
+            }
+          }
+        },
+        {
+          "name": "Get All Leaves (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/leaves/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "leaves", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/leaves/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "leaves", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{session_cookie}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"oldpassword\",\n  \"newPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/profile/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "profile", "change-password"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
