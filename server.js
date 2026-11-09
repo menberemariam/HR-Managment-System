@@ -24,23 +24,6 @@ app.use(
   }),
 );
 
-// Database connection
-mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/hr_system", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(async () => {
-    console.log("✅ Connected to MongoDB");
-    try {
-      const { seedUsers } = require("./routes/auth");
-      await seedUsers();
-    } catch (err) {
-      console.error("Auto-seed error:", err);
-    }
-  })
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
-
 // ⭐⭐⭐ IMPORTANT: REQUIRE ROUTES CORRECTLY ⭐⭐⭐
 const authRoutes = require("./routes/auth");
 const employeeRoutes = require("./routes/employees");
@@ -68,6 +51,22 @@ app.get("/", (req, res) => {
 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "login.html"));
+});
+
+app.get("/gateway", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "gateway.html"));
+});
+
+app.get("/helpdesk", (req, res) => {
+  res.redirect("/gateway#helpdesk");
+});
+
+app.get("/forgot-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "forgot-password.html"));
+});
+
+app.get("/reset-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "reset-password.html"));
 });
 
 app.get("/admin-dashboard", (req, res) => {
@@ -123,24 +122,52 @@ app.get("/change-password", (req, res) => {
 
 // Other route handlers for HTML files...
 const PORT = process.env.PORT || 8000;
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/hr_system";
 
-const server = app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log("✅ Routes loaded:");
-  console.log("   - /api/auth");
-  console.log("   - /api/employees");
-  console.log("   - /api/leaves");
-  console.log("   - /api/profile");
-});
+function startServer() {
+  const server = app.listen(PORT, () => {
+    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log("✅ Routes loaded:");
+    console.log("   - /api/auth");
+    console.log("   - /api/employees");
+    console.log("   - /api/leaves");
+    console.log("   - /api/profile");
+  });
 
-server.on("error", (err) => {
-  if (err.code === "EADDRINUSE") {
-    console.log(`❌ Port ${PORT} is busy, trying ${PORT + 1}...`);
-    const newPort = parseInt(PORT) + 1;
-    const newServer = app.listen(newPort, () => {
-      console.log(`✅ Server running on port ${newPort}`);
-    });
-  } else {
-    console.error("❌ Server error:", err);
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.log(`❌ Port ${PORT} is busy, trying ${PORT + 1}...`);
+      const newPort = parseInt(PORT) + 1;
+      app.listen(newPort, () => {
+        console.log(`✅ Server running on port ${newPort}`);
+      });
+    } else {
+      console.error("❌ Server error:", err);
+    }
+  });
+}
+
+// Connect to MongoDB *before* accepting requests. Otherwise Mongoose buffers
+// every query and they fail with "buffering timed out after 10000ms" when the
+// database is unreachable or rejects the credentials.
+async function start() {
+  try {
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
+    console.log("✅ Connected to MongoDB");
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err.message);
+    console.error("   Check MONGODB_URI in .env (host, database, user and password).");
+    process.exit(1);
   }
-});
+
+  try {
+    await authRoutes.seedUsers();
+  } catch (err) {
+    console.error("Auto-seed error:", err);
+  }
+
+  startServer();
+}
+
+start();

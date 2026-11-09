@@ -9,7 +9,7 @@ async function testAPI() {
     console.log("1. Testing Login...");
     const loginRes = await axios.post("http://localhost:8000/api/auth/login", {
       email: "admin@arsi.edu",
-      password: "password123",
+      password: "admin123",
     });
     console.log("✓ Login Success:", loginRes.data.success);
 

@@ -13,6 +13,17 @@ class Auth {
       const response = await fetch("/api/auth/check");
       const data = await response.json();
 
+      // Point shared pages at the dashboard for the signed-in role.
+      if (data.authenticated && data.user) {
+        const dashboardHref =
+          data.user.role === "admin"
+            ? "/admin-dashboard"
+            : "/employee-dashboard";
+        document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
+          link.setAttribute("href", dashboardHref);
+        });
+      }
+
       if (data.authenticated && window.location.pathname === "/login.html") {
         // Redirect based on role
         if (data.user.role === "admin") {
@@ -47,6 +58,7 @@ class Auth {
     const submitBtn = document.querySelector(
       '#loginForm button[type="submit"]',
     );
+    const submitMarkup = submitBtn ? submitBtn.innerHTML : "";
 
     if (!email || !password) {
       this.showError("Please fill in all fields");
@@ -88,7 +100,7 @@ class Auth {
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Sign In";
+        submitBtn.innerHTML = submitMarkup;
       }
     }
   }
@@ -102,6 +114,11 @@ class Auth {
     } catch (error) {
       console.error("Logout error:", error);
     }
+  }
+
+  // Used by pages that call Auth.logout() directly.
+  static logout() {
+    new Auth().handleLogout();
   }
 
   isValidEmail(email) {

@@ -7,105 +7,135 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="/css/auth-ui.css" />
     <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        height: 100vh;
+      .splash-main {
+        flex: 1;
         display: flex;
-        justify-content: center;
         align-items: center;
-        margin: 0;
-        color: white;
+        justify-content: center;
+        padding: 2rem 1rem;
+      }
+
+      .splash-card {
+        width: 100%;
+        max-width: 460px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 40px 32px;
+        border-radius: var(--au-radius-lg);
+        background: var(--au-surface-lowest);
+        box-shadow: var(--au-shadow-lg);
         text-align: center;
       }
-      .container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        max-width: 600px;
+
+      .splash-seal {
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        border-radius: var(--au-radius);
+        background: var(--au-surface-low);
+        color: var(--au-primary);
       }
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
+
+      .splash-seal svg {
+        width: 36px;
+        height: 36px;
       }
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-        font-weight: normal;
+
+      .splash-card h1 {
+        margin: 2px 0 0;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--au-primary);
       }
-      .loading {
-        display: flex;
-        justify-content: center;
-        margin: 30px 0;
+
+      .splash-card h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--au-on-surface-variant);
       }
-      .spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid rgba(255, 255, 255, 0.3);
+
+      .splash-spinner {
+        width: 30px;
+        height: 30px;
+        margin: 10px 0 2px;
+        border: 3px solid var(--au-surface-high);
+        border-top-color: var(--au-primary);
         border-radius: 50%;
-        border-top-color: white;
-        animation: spin 1s ease-in-out infinite;
+        animation: splash-spin 0.9s linear infinite;
       }
-      @keyframes spin {
+
+      @keyframes splash-spin {
         to {
           transform: rotate(360deg);
         }
       }
-      .info {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 20px;
-        text-align: left;
+
+      .splash-status {
+        margin: 0;
+        font-size: 12px;
+        color: var(--au-on-surface-variant);
       }
-      .info h3 {
-        margin-top: 0;
-      }
-      .btn {
-        display: inline-block;
-        background: white;
-        color: #667eea;
-        padding: 12px 30px;
-        border-radius: 8px;
+
+      .splash-card .au-submit {
+        margin-top: 8px;
         text-decoration: none;
-        font-weight: bold;
-        margin-top: 20px;
-        transition: transform 0.2s;
       }
-      .btn:hover {
-        transform: translateY(-2px);
+
+      .splash-note {
+        margin: 0;
+        font-size: 10px;
+        line-height: 16px;
+        color: var(--au-on-surface-variant);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .splash-spinner {
+          animation-duration: 3s;
+        }
       }
     </style>
   </head>
-  <body>
-    <div class="container">
-      <h1>Arsi University</h1>
-      <h2>Human Resource Management System</h2>
+  <body class="au-body">
+    <main class="splash-main">
+      <div class="splash-card">
+        <div class="splash-seal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z" />
+            <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" />
+            <path d="M21 8v6" />
+          </svg>
+        </div>
 
-      <div class="loading">
-        <div class="spinner"></div>
-      </div>
+        <h1>Arsi University</h1>
+        <h2>Human Resource Management System</h2>
 
-      <p>Redirecting to login page...</p>
+        <div class="splash-spinner" role="status" aria-label="Redirecting"></div>
+        <p class="splash-status">Redirecting to secure portal sign-in…</p>
 
-      <a href="/login" class="btn">Go to Login Page</a>
+        <a href="/login" class="au-submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4.5" y="10" width="15" height="10" rx="2.5" />
+            <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" />
+          </svg>
+          <span>Go to Login Page</span>
+        </a>
 
-      <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8">
-        <p>
-          If redirection doesn't happen in 5 seconds, click the button above.
+        <p class="splash-note">
+          Not redirected within 5 seconds? Use the button above. Institutional
+          access is restricted to authorised staff and faculty.
         </p>
       </div>
-    </div>
+    </main>
 
     <script>
       // Auto-redirect after 3 seconds
@@ -124,6 +154,9 @@
               window.location.href = "/employee-dashboard";
             }
           }
+        })
+        .catch(() => {
+          /* stay on the splash; the timer still redirects */
         });
     </script>
   </body>

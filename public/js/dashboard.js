@@ -390,11 +390,16 @@ class Dashboard {
   }
 
   updateUI() {
-    // Update active menu item
-    const currentPage = window.location.pathname.split("/").pop();
+    // Update active menu item. The server routes pages without a .html
+    // suffix, so compare both forms of the filename.
+    const currentPage =
+      window.location.pathname.split("/").pop() || "admin-dashboard";
+    const currentBase = currentPage.replace(/\.html$/, "");
     document.querySelectorAll(".menu-item").forEach((item) => {
       item.classList.remove("active");
-      if (item.getAttribute("href") === currentPage) {
+      const href = (item.getAttribute("href") || "").split("/").pop();
+      const hrefBase = href.replace(/\.html$/, "");
+      if (href && hrefBase === currentBase) {
         item.classList.add("active");
       }
     });

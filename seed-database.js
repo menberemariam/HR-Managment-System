@@ -50,9 +50,7 @@ const Employee = mongoose.model("Employee", employeeSchema);
 const User = mongoose.model("User", userSchema);
 
 const users = [
-  { email: "admin@company.com", password: "admin123", role: "admin" },
-  { email: "john@company.com", password: "password123", role: "employee" },
-  { email: "admin@arsi.edu", password: "password123", role: "admin" },
+  { email: "admin@arsi.edu", password: "admin123", role: "admin" },
 ];
 
 async function seed() {
@@ -63,7 +61,17 @@ async function seed() {
     for (const userData of users) {
       const existingUser = await User.findOne({ email: userData.email });
       if (existingUser) {
-        console.log(`User already exists: ${userData.email}`);
+        const passwordMatches = await bcrypt.compare(
+          userData.password,
+          existingUser.password,
+        );
+        if (!passwordMatches) {
+          existingUser.password = userData.password;
+          await existingUser.save();
+          console.log(`Updated password for: ${userData.email}`);
+        } else {
+          console.log(`User already exists: ${userData.email}`);
+        }
         continue;
       }
 

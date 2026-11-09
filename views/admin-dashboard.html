@@ -1,106 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - Arsi HR Hub</title>
-
-    <link rel="stylesheet" href="/css/style.css" />
+    <title>Admin Dashboard - Arsi University HRMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="/css/auth-ui.css" />
+    <link rel="stylesheet" href="/css/dashboard-ui.css" />
   </head>
-  <body>
-    <div class="dashboard-container">
+  <body class="au-body">
+    <div class="au-app">
       <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="logo">
-          <h1>Arsi HR Hub</h1>
-          <p>HR Management System</p>
-        </div>
+      <aside class="au-sidebar">
+        <a class="au-sidebar__brand" href="/admin-dashboard">
+          <span class="au-sidebar__seal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z" />
+              <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" />
+              <path d="M21 8v6" />
+            </svg>
+          </span>
+          <span>
+            <span class="au-sidebar__name">Arsi University</span>
+            <span class="au-sidebar__sub">HR Management System</span>
+          </span>
+        </a>
 
-        <div class="menu">
+        <nav class="au-nav" aria-label="Main navigation">
+          <span class="au-nav__label">Workspace</span>
           <a href="admin-dashboard.html" class="menu-item active">
-            <i class="menu-icon fas fa-tachometer-alt"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6" />
+            </svg>
             Dashboard
           </a>
           <a href="employee-directory.html" class="menu-item">
-            <i class="menu-icon fas fa-users"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 20c0-3.1 2.7-5.5 6-5.5s6 2.4 6 5.5" />
+              <path d="M16.5 5.4a3.2 3.2 0 0 1 0 5.4M18 14.9c2 .7 3 2.5 3 5.1" />
+            </svg>
             Employees
           </a>
           <a href="leave-management.html" class="menu-item">
-            <i class="menu-icon fas fa-calendar-alt"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+              <path d="M8 3v3M16 3v3M3 9.5h18" />
+            </svg>
             Leave Management
           </a>
+          <a href="admin-employees.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="8" r="3" />
+              <path d="M2.5 20c0-3.2 2.9-5.5 6.5-5.5s6.5 2.3 6.5 5.5" />
+              <path d="M18 8v6M15 11h6" />
+            </svg>
+            Add Employees
+          </a>
+
+          <span class="au-nav__label">Account</span>
           <a href="profile.html" class="menu-item">
-            <i class="menu-icon fas fa-user"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6" />
+            </svg>
             Profile
           </a>
-          <a href="#" id="logoutBtn" class="menu-item">
-            <i class="menu-icon fas fa-sign-out-alt"></i>
+          <a href="#" id="logoutBtn" class="menu-item menu-item--danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />
+              <path d="M10 8l-4 4 4 4M6 12h9" />
+            </svg>
             Sign Out
           </a>
-        </div>
-      </div>
+        </nav>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <div class="header">
-          <h2>Admin Dashboard</h2>
-          <p>Welcome back, <span id="userName">Admin</span></p>
+        <div class="au-sidebar__foot">
+          <strong>Institutional Registry</strong>
+          <span>EthERNet federated identity • Policy SEC-09/24</span>
         </div>
+      </aside>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3 id="totalEmployees">0</h3>
-            <p>Total Employees</p>
-            <small>Active staff members</small>
+      <!-- Main -->
+      <div class="au-mainwrap">
+        <header class="au-topbar">
+          <div>
+            <span class="au-topbar__eyebrow">Administrative Workspace</span>
+            <h1>Admin Dashboard</h1>
           </div>
-          <div class="stat-card">
-            <h3 id="pendingLeaves">0</h3>
-            <p>Pending Leaves</p>
-            <small>Awaiting approval</small>
+          <div class="au-topbar__meta">
+            <div class="au-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                <path d="M8 3v3M16 3v3M3 9.5h18" />
+              </svg>
+              <span>AY 2024/2025</span>
+            </div>
+            <div class="au-topbar__user">
+              <span class="au-avatar">AU</span>
+              <div>
+                <span class="au-topbar__name" id="userName">Admin</span>
+                <span class="au-topbar__role">HR Administrator</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-card">
-            <h3 id="approvedLeaves">0</h3>
-            <p>Approved Leaves</p>
-            <small>This month</small>
-          </div>
-          <div class="stat-card">
-            <h3 id="rejectedLeaves">0</h3>
-            <p>Rejected Leaves</p>
-            <small>This month</small>
-          </div>
-        </div>
+        </header>
 
-        <!-- Recent Leave Requests -->
-        <div class="table-container">
-          <h3>Recent Leave Requests</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Employee</th>
-                <th>Leave Period</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="leaveRequestsTable">
-              <!-- Data will be loaded dynamically -->
-            </tbody>
-          </table>
-        </div>
+        <main class="au-content">
+          <section class="au-hero">
+            <div class="au-hero__body">
+              <div>
+                <span class="au-hero__badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+                  </svg>
+                  Central Registry
+                </span>
+                <h2>Institutional Overview</h2>
+                <p>
+                  Monitor headcount, review pending leave requests, and keep staff
+                  records aligned with the university's HR registry.
+                </p>
+                <div class="au-hero__actions">
+                  <a class="au-btn au-btn--primary" href="admin-employees.html">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                    Add Employee
+                  </a>
+                  <a class="au-btn au-btn--ghost" href="leave-management.html">Review Leave</a>
+                  <a class="au-btn au-btn--ghost" href="employee-directory.html">Staff Directory</a>
+                </div>
+              </div>
+            </div>
+          </section>
 
-        <!-- Upcoming Birthdays -->
-        <div class="table-container">
-          <h3>Upcoming Birthdays</h3>
-          <div id="upcomingBirthdays">
-            <!-- Data will be loaded dynamically -->
+          <section class="au-stats" aria-label="Key figures">
+            <article class="au-statcard">
+              <div class="au-statcard__top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="9" cy="8" r="3.2" />
+                  <path d="M3 20c0-3.1 2.7-5.5 6-5.5s6 2.4 6 5.5" />
+                  <path d="M16.5 5.4a3.2 3.2 0 0 1 0 5.4M18 14.9c2 .7 3 2.5 3 5.1" />
+                </svg>
+                <span class="au-statcard__label">Total Employees</span>
+              </div>
+              <h3 class="au-statcard__value" id="totalEmployees">0</h3>
+              <span class="au-statcard__hint">Active staff members</span>
+            </article>
+
+            <article class="au-statcard">
+              <div class="au-statcard__top" style="color: var(--au-secondary)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+                <span class="au-statcard__label">Pending Leaves</span>
+              </div>
+              <h3 class="au-statcard__value" id="pendingLeaves">0</h3>
+              <span class="au-statcard__hint">Awaiting approval</span>
+            </article>
+
+            <article class="au-statcard">
+              <div class="au-statcard__top" style="color: #3b5f93">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m8 12 2.7 2.7L16 9.5" />
+                </svg>
+                <span class="au-statcard__label">Approved Leaves</span>
+              </div>
+              <h3 class="au-statcard__value" id="approvedLeaves">0</h3>
+              <span class="au-statcard__hint">This month</span>
+            </article>
+
+            <article class="au-statcard">
+              <div class="au-statcard__top" style="color: var(--au-outline)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m9 9 6 6M15 9l-6 6" />
+                </svg>
+                <span class="au-statcard__label">Rejected Leaves</span>
+              </div>
+              <h3 class="au-statcard__value" id="rejectedLeaves">0</h3>
+              <span class="au-statcard__hint">This month</span>
+            </article>
+          </section>
+
+          <div class="au-panels">
+            <section class="au-panel">
+              <div class="au-panel__head">
+                <div>
+                  <h3>Recent Leave Requests</h3>
+                  <p>Latest five submissions across the institution</p>
+                </div>
+                <a class="au-panel__link" href="leave-management.html">
+                  View all
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+              <div class="au-panel__body">
+                <div class="au-tablewrap">
+                  <table class="au-table">
+                    <thead>
+                      <tr>
+                        <th>Employee</th>
+                        <th>Leave Period</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="leaveRequestsTable">
+                      <!-- Data will be loaded dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <section class="au-panel">
+              <div class="au-panel__head">
+                <div>
+                  <h3>Upcoming Birthdays</h3>
+                  <p>Celebrations in the coming days</p>
+                </div>
+              </div>
+              <div class="au-panel__body">
+                <div class="au-list" id="upcomingBirthdays">
+                  <p class="no-data">Loading birthdays…</p>
+                </div>
+              </div>
+            </section>
           </div>
-        </div>
+        </main>
+
+        <footer class="au-dashfoot">
+          <span class="au-dashfoot__strong">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            AES-256 Registry Crypt
+          </span>
+          <span>© 2026 Arsi University (Yuunivarsiitii Arsii) • HRMS v4.2.1-LTS</span>
+        </footer>
       </div>
     </div>
 

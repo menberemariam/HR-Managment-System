@@ -1,176 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leave Management - Arsi HR Hub</title>
+    <title>Leave Management - Arsi University HRMS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="/css/auth-ui.css" />
+    <link rel="stylesheet" href="/css/dashboard-ui.css" />
   </head>
-  <body>
-    <div class="dashboard-container">
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="logo">
-          <h1>Arsi HR Hub</h1>
-          <p>HR Management System</p>
-        </div>
+  <body class="au-body">
+    <div class="au-app">
+      <aside class="au-sidebar">
+        <a class="au-sidebar__brand" href="/employee-dashboard" data-dashboard-link>
+          <span class="au-sidebar__seal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z" />
+              <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" />
+              <path d="M21 8v6" />
+            </svg>
+          </span>
+          <span>
+            <span class="au-sidebar__name">Arsi University</span>
+            <span class="au-sidebar__sub">HR Management System</span>
+          </span>
+        </a>
 
-        <div class="menu">
-          <a href="admin-dashboard.html" class="menu-item">
-            <i class="menu-icon fas fa-tachometer-alt"></i>
+        <nav class="au-nav" aria-label="Main navigation">
+          <span class="au-nav__label">Workspace</span>
+          <a href="/employee-dashboard" data-dashboard-link class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6" />
+            </svg>
             Dashboard
           </a>
           <a href="employee-directory.html" class="menu-item">
-            <i class="menu-icon fas fa-users"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 20c0-3.1 2.7-5.5 6-5.5s6 2.4 6 5.5" />
+              <path d="M16.5 5.4a3.2 3.2 0 0 1 0 5.4M18 14.9c2 .7 3 2.5 3 5.1" />
+            </svg>
             Employees
           </a>
           <a href="leave-management.html" class="menu-item active">
-            <i class="menu-icon fas fa-calendar-alt"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+              <path d="M8 3v3M16 3v3M3 9.5h18" />
+            </svg>
             Leave Management
           </a>
+
+          <span class="au-nav__label">Account</span>
           <a href="profile.html" class="menu-item">
-            <i class="menu-icon fas fa-user"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6" />
+            </svg>
             Profile
           </a>
-          <a href="#" id="logoutBtn" class="menu-item">
-            <i class="menu-icon fas fa-sign-out-alt"></i>
+          <a href="#" id="logoutBtn" class="menu-item menu-item--danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />
+              <path d="M10 8l-4 4 4 4M6 12h9" />
+            </svg>
             Sign Out
           </a>
-        </div>
-      </div>
+        </nav>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <div class="header">
-          <h2>Leave Management</h2>
-          <p>Review and manage leave requests</p>
+        <div class="au-sidebar__foot">
+          <strong>Leave Entitlements</strong>
+          <span>Approved requests update the staff leave balance automatically.</span>
         </div>
+      </aside>
 
-        <!-- For Admin: Leave Requests -->
-        <div id="adminLeaveSection" style="display: none">
-          <div style="display: flex; gap: 10px; margin-bottom: 20px">
-            <button class="filter-btn btn active" data-filter="pending">
-              Pending (<span id="pendingCount">0</span>)
-            </button>
-            <button class="filter-btn btn" data-filter="approved">
-              Approved (<span id="approvedCount">0</span>)
-            </button>
-            <button class="filter-btn btn" data-filter="rejected">
-              Rejected (<span id="rejectedCount">0</span>)
-            </button>
-            <button class="filter-btn btn" data-filter="all">
-              All Requests
-            </button>
+      <div class="au-mainwrap">
+        <header class="au-topbar">
+          <div>
+            <span class="au-topbar__eyebrow">HR Operations</span>
+            <h1>Leave Management</h1>
           </div>
-
-          <div id="adminLeaveList" class="table-container">
-            <!-- Admin leave requests will be loaded here -->
-            <div style="text-align: center; padding: 40px; color: #666">
-              Loading leave requests...
+          <div class="au-topbar__meta">
+            <div class="au-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                <path d="M8 3v3M16 3v3M3 9.5h18" />
+              </svg>
+              <span>AY 2024/2025</span>
             </div>
-          </div>
-        </div>
-
-        <!-- For Employee: Apply for Leave -->
-        <div id="employeeLeaveSection" style="display: none">
-          <div class="stats-grid">
-            <div class="stat-card">
-              <h3 id="leaveBalance">0</h3>
-              <p>Leave Balance</p>
-              <small>Days remaining</small>
-            </div>
-          </div>
-
-          <div class="table-container">
-            <h3>Apply for Leave</h3>
-            <form id="applyLeaveForm">
-              <input type="hidden" id="employeeId" name="employeeId" value="" />
-              <div
-                style="
-                  display: grid;
-                  grid-template-columns: 1fr 1fr;
-                  gap: 20px;
-                  margin-bottom: 20px;
-                "
-              >
-                <div class="form-group">
-                  <label>Leave Type *</label>
-                  <select name="leaveType" class="form-control" required>
-                    <option value="annual">Annual Leave</option>
-                    <option value="sick">Sick Leave</option>
-                    <option value="emergency">Emergency Leave</option>
-                    <option value="maternity">Maternity Leave</option>
-                    <option value="paternity">Paternity Leave</option>
-                    <option value="unpaid">Unpaid Leave</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Start Date *</label>
-                  <input
-                    type="date"
-                    id="startDate"
-                    name="startDate"
-                    class="form-control"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label>End Date *</label>
-                  <input
-                    type="date"
-                    id="endDate"
-                    name="endDate"
-                    class="form-control"
-                    required
-                  />
-                </div>
-                <div class="form-group" style="grid-column: span 2">
-                  <label>Reason *</label>
-                  <textarea
-                    name="reason"
-                    class="form-control"
-                    rows="3"
-                    placeholder="Please provide a reason for your leave request..."
-                    required
-                  ></textarea>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                class="btn"
-                style="width: auto; padding: 10px 30px"
-              >
-                Submit Leave Request
-              </button>
-            </form>
-          </div>
-
-          <!-- My Leaves History -->
-          <div class="table-container">
-            <h3>My Leave History</h3>
-            <div id="employeeLeaveList">
-              <!-- Employee leave history will be loaded here -->
-              <div style="text-align: center; padding: 40px; color: #666">
-                Loading leave history...
+            <div class="au-topbar__user">
+              <span class="au-avatar">AU</span>
+              <div>
+                <span class="au-topbar__name" id="userName">Employee</span>
+                <span class="au-topbar__role">Staff Account</span>
               </div>
             </div>
           </div>
-        </div>
+        </header>
+
+        <main class="au-content">
+          <section class="au-hero">
+            <div class="au-hero__body">
+              <div>
+                <span class="au-hero__badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                    <path d="M8 3v3M16 3v3M3 9.5h18" />
+                  </svg>
+                  Leave Desk
+                </span>
+                <h2>Leave Requests &amp; Approvals</h2>
+                <p>
+                  Submit leave requests, follow their approval status, and review
+                  pending submissions across the institution.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Admin view -->
+          <div id="adminLeaveSection" class="au-stack" style="display: none">
+            <section class="au-panel">
+              <div class="au-panel__head">
+                <div>
+                  <h3>Staff Leave Requests</h3>
+                  <p>Filter submissions and process pending approvals</p>
+                </div>
+              </div>
+              <div class="au-panel__body">
+                <div class="au-filters" style="margin-bottom: 14px">
+                  <button type="button" class="filter-btn active" data-filter="pending">
+                    Pending <span id="pendingCount">0</span>
+                  </button>
+                  <button type="button" class="filter-btn" data-filter="approved">
+                    Approved <span id="approvedCount">0</span>
+                  </button>
+                  <button type="button" class="filter-btn" data-filter="rejected">
+                    Rejected <span id="rejectedCount">0</span>
+                  </button>
+                  <button type="button" class="filter-btn" data-filter="all">All Requests</button>
+                </div>
+
+                <div id="adminLeaveList" class="au-leave-list">
+                  <p class="no-data">Loading leave requests…</p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Employee view -->
+          <div id="employeeLeaveSection" class="au-stack" style="display: none">
+            <section class="au-stats">
+              <article class="au-statcard">
+                <div class="au-statcard__top">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                    <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                    <path d="M8 3v3M16 3v3M3 9.5h18" />
+                  </svg>
+                  <span class="au-statcard__label">Leave Balance</span>
+                </div>
+                <h3 class="au-statcard__value" id="leaveBalance">0</h3>
+                <span class="au-statcard__hint">Days remaining this year</span>
+              </article>
+            </section>
+
+            <section class="au-panel">
+              <div class="au-panel__head">
+                <div>
+                  <h3>Apply for Leave</h3>
+                  <p>Submit a request to the HR Directorate</p>
+                </div>
+              </div>
+              <div class="au-panel__body">
+                <form id="applyLeaveForm">
+                  <input type="hidden" id="employeeId" name="employeeId" value="" />
+                  <div class="au-formgrid">
+                    <div class="au-field">
+                      <label class="au-label" for="leaveType">Leave Type *</label>
+                      <div class="au-select" style="flex: 1 1 auto; width: 100%">
+                        <select id="leaveType" name="leaveType" class="au-control" required>
+                          <option value="annual">Annual Leave</option>
+                          <option value="sick">Sick Leave</option>
+                          <option value="emergency">Emergency Leave</option>
+                          <option value="maternity">Maternity Leave</option>
+                          <option value="paternity">Paternity Leave</option>
+                          <option value="unpaid">Unpaid Leave</option>
+                        </select>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="au-field">
+                      <label class="au-label" for="startDate">Start Date *</label>
+                      <input type="date" id="startDate" name="startDate" class="au-control" required />
+                    </div>
+                    <div class="au-field">
+                      <label class="au-label" for="endDate">End Date *</label>
+                      <input type="date" id="endDate" name="endDate" class="au-control" required />
+                    </div>
+                    <div class="au-field au-formgrid--full">
+                      <label class="au-label" for="leaveReason">Reason *</label>
+                      <textarea
+                        id="leaveReason"
+                        name="reason"
+                        class="au-control au-control--area"
+                        rows="3"
+                        placeholder="Please provide a reason for your leave request…"
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="au-actions" style="justify-content: flex-start">
+                    <button type="submit" class="au-btn au-btn--primary">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m21 3-9.5 9.5M21 3l-6.5 18-4-7-7-4L21 3Z" />
+                      </svg>
+                      Submit Leave Request
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <section class="au-panel">
+              <div class="au-panel__head">
+                <div>
+                  <h3>My Leave History</h3>
+                  <p>All requests you have submitted</p>
+                </div>
+              </div>
+              <div class="au-panel__body">
+                <div id="employeeLeaveList" class="au-leave-list">
+                  <p class="no-data">Loading leave history…</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+
+        <footer class="au-dashfoot">
+          <span class="au-dashfoot__strong">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            AES-256 Registry Crypt
+          </span>
+          <span>© 2026 Arsi University • HRMS v4.2.1-LTS</span>
+        </footer>
       </div>
     </div>
 

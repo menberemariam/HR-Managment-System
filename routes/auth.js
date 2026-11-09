@@ -1,93 +1,88 @@
+const crypto = require("crypto");
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const Employee = require("../models/Employee");
 
-// Pre-filled users (for demo)
+// The single admin account used to sign in to the system.
+const ADMIN_ACCOUNT = {
+  email: "admin@arsi.edu",
+  password: "admin123",
+  role: "admin",
+};
+
+// Ensure the admin account exists and that its password is the expected one.
+// Existing installs may have been seeded with a different password, so the
+// password is re-hashed and saved when it does not match.
 const seedUsers = async () => {
   try {
-    console.log("🌱 Seeding initial users...");
+    console.log("🌱 Ensuring admin account...");
 
-    // Define the users array that was missing
-    const users = [
-      {
-        email: "admin@company.com",
-        password: "admin123", // Will be auto-hashed by User model
-        role: "admin",
-      },
-      {
-        email: "john@company.com",
-        password: "password123",
-        role: "employee",
-      },
-      {
-        email: "admin@arsi.edu",
-        password: "password123",
-        role: "admin",
-      },
-    ];
+    let employee = await Employee.findOne({ email: ADMIN_ACCOUNT.email });
+    if (!employee) {
+      // Generate employee ID
+      const lastEmployee = await Employee.findOne().sort({ employeeId: -1 });
+      let newId = "ARSI001";
+      if (lastEmployee && lastEmployee.employeeId) {
+        const num =
+          parseInt(lastEmployee.employeeId.replace("ARSI", "")) + 1;
+        newId = "ARSI" + num.toString().padStart(3, "0");
+      }
 
-    for (const userData of users) {
-      const existingUser = await User.findOne({ email: userData.email });
-      if (!existingUser) {
-        console.log(`Creating user: ${userData.email}`);
+      employee = await Employee.create({
+        employeeId: newId,
+        fullName: "System Administrator",
+        email: ADMIN_ACCOUNT.email,
+        department: "Administration",
+        position: "Administrator",
+        phone: "123-456-7890",
+        dateOfBirth: new Date("1990-01-01"),
+        hireDate: new Date(),
+        status: "active",
+        leaveBalance: 30,
+      });
+      console.log(`✅ Created employee: ${employee.fullName}`);
+    }
 
-        // Check if employee exists first
-        const employee = await Employee.findOne({ email: userData.email });
+    const existingUser = await User.findOne({ email: ADMIN_ACCOUNT.email });
+    if (!existingUser) {
+      await User.create({
+        email: ADMIN_ACCOUNT.email,
+        password: ADMIN_ACCOUNT.password, // Hashed by the User model
+        role: ADMIN_ACCOUNT.role,
+        employeeId: employee._id,
+        isActive: true,
+      });
+      console.log(`✅ Created admin user: ${ADMIN_ACCOUNT.email}`);
+    } else {
+      let needsSave = false;
 
-        // If no employee exists, create a basic one
-        let employeeId = null;
-        if (!employee) {
-          console.log(`Employee not found for ${userData.email}, creating...`);
+      const passwordMatches = await existingUser.comparePassword(
+        ADMIN_ACCOUNT.password,
+      );
+      if (!passwordMatches) {
+        existingUser.password = ADMIN_ACCOUNT.password; // Re-hashed on save
+        needsSave = true;
+      }
+      if (existingUser.role !== ADMIN_ACCOUNT.role) {
+        existingUser.role = ADMIN_ACCOUNT.role;
+        needsSave = true;
+      }
+      if (!existingUser.employeeId) {
+        existingUser.employeeId = employee._id;
+        needsSave = true;
+      }
+      if (!existingUser.isActive) {
+        existingUser.isActive = true;
+        needsSave = true;
+      }
 
-          // Generate employee ID
-          const lastEmployee = await Employee.findOne().sort({
-            employeeId: -1,
-          });
-          let newId = "ARSI001";
-          if (lastEmployee && lastEmployee.employeeId) {
-            const num =
-              parseInt(lastEmployee.employeeId.replace("ARSI", "")) + 1;
-            newId = "ARSI" + num.toString().padStart(3, "0");
-          }
-
-          // Create employee record
-          const newEmployee = new Employee({
-            employeeId: newId,
-            fullName:
-              userData.role === "admin" ? "System Administrator" : "John Doe",
-            email: userData.email,
-            department: userData.role === "admin" ? "Administration" : "Computer Science",
-            position: userData.role === "admin" ? "Administrator" : "Employee",
-            phone: "123-456-7890",
-            dateOfBirth: new Date("1990-01-01"),
-            hireDate: new Date(),
-            status: "active",
-            leaveBalance: 30,
-          });
-
-          await newEmployee.save();
-          employeeId = newEmployee._id;
-          console.log(`✅ Created employee: ${newEmployee.fullName}`);
-        } else {
-          employeeId = employee._id;
-          console.log(`✅ Using existing employee: ${employee.fullName}`);
-        }
-
-        // Create user account
-        const user = new User({
-          email: userData.email,
-          password: userData.password, // Will auto-hash in User model pre-save
-          role: userData.role,
-          employeeId: employeeId,
-          isActive: true,
-        });
-
-        await user.save();
-        console.log(`✅ Created user: ${user.email} (${user.role})`);
+      if (needsSave) {
+        await existingUser.save();
+        console.log(`✅ Admin account updated: ${ADMIN_ACCOUNT.email}`);
       } else {
-        console.log(`User already exists: ${userData.email}`);
+        console.log(`Admin account ready: ${ADMIN_ACCOUNT.email}`);
       }
     }
 
@@ -113,27 +108,18 @@ router.post(
     try {
       console.log("=== LOGIN ATTEMPT ===");
       console.log("Email:", req.body.email);
-      console.log("Password entered:", req.body.password);
 
       const { email, password } = req.body;
 
       // Find user
       const user = await User.findOne({ email }).populate("employeeId");
-      console.log("User found:", user ? "YES" : "NO");
 
       if (!user) {
         console.log("❌ User not found in database");
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
-      console.log("User email:", user.email);
-      console.log("User password hash exists:", user.password ? "YES" : "NO");
-      if (user.password) {
-        console.log("Password hash:", user.password.substring(0, 30) + "...");
-      }
-
       // Check password
-      console.log("Comparing password...");
       let isMatch = false;
       try {
         isMatch = await user.comparePassword(password);
@@ -145,7 +131,6 @@ router.post(
 
       if (!isMatch) {
         console.log("❌ Password comparison failed");
-        console.log("Password entered:", password);
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
@@ -203,6 +188,106 @@ router.get("/check", (req, res) => {
     res.json({ authenticated: false });
   }
 });
+
+// Request a password reset link.
+// No mail service is configured on this installation, so the generated link is
+// returned to the page (and logged) instead of being emailed. Replace the
+// response field with a mailer when SMTP credentials are available.
+router.post(
+  "/forgot-password",
+  [body("email").isEmail().normalizeEmail()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: "Enter a valid email address." });
+    }
+
+    const genericMessage =
+      "If that address belongs to an active staff account, a reset link has been issued.";
+
+    try {
+      const user = await User.findOne({
+        email: req.body.email,
+        isActive: true,
+      });
+
+      // Do not reveal whether an account exists for the address.
+      if (!user) {
+        return res.json({ success: true, message: genericMessage });
+      }
+
+      const rawToken = crypto.randomBytes(32).toString("hex");
+      user.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(rawToken)
+        .digest("hex");
+      user.resetPasswordExpires = new Date(Date.now() + 30 * 60 * 1000);
+      await user.save();
+
+      const resetUrl = `${req.protocol}://${req.get("host")}/reset-password?token=${rawToken}`;
+      console.log(`🔐 Password reset link for ${user.email}: ${resetUrl}`);
+
+      res.json({
+        success: true,
+        message: genericMessage,
+        resetUrl,
+        expiresInMinutes: 30,
+      });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ error: "Unable to process the reset request." });
+    }
+  },
+);
+
+// Complete a password reset using a single-use, time-limited token.
+router.post(
+  "/reset-password",
+  [
+    body("token").isString().isLength({ min: 32 }),
+    body("password")
+      .isString()
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long."),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    try {
+      const hashedToken = crypto
+        .createHash("sha256")
+        .update(req.body.token)
+        .digest("hex");
+
+      const user = await User.findOne({
+        resetPasswordToken: hashedToken,
+        resetPasswordExpires: { $gt: new Date() },
+      });
+
+      if (!user) {
+        return res.status(400).json({
+          error: "This reset link is invalid or has expired. Request a new one.",
+        });
+      }
+
+      user.password = req.body.password; // Re-hashed by the User model
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+      await user.save();
+
+      res.json({
+        success: true,
+        message: "Password updated. You can now sign in with your new password.",
+      });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ error: "Unable to reset the password." });
+    }
+  },
+);
 
 // Seed initial data
 router.post("/seed", async (req, res) => {

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Employee = require("../models/Employee");
+const User = require("../models/User");
 
 // Get all employees
 router.get("/", async (req, res) => {
@@ -30,119 +31,91 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get employee by ID
+// Create employee and its login account (admin only)
 router.post("/", async (req, res) => {
   try {
-    console.log("=== ADD EMPLOYEE REQUEST ===");
-    console.log("Request body:", req.body);
+    const { fullName, email, department, position, phone, dateOfBirth } =
+      req.body;
 
-    const employeeData = req.body;
+    // Validate required fields
+    if (!fullName || !email || !department || !position || !phone || !dateOfBirth) {
+      return res.status(400).json({
+        error:
+          "All fields are required: fullName, email, department, position, phone, dateOfBirth",
+      });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if email already exists
+    const existingEmployee = await Employee.findOne({
+      email: normalizedEmail,
+    });
+    if (existingEmployee) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(400).json({
+        error: "A login account already exists for this email",
+      });
+    }
 
     // Generate employee ID
     const lastEmployee = await Employee.findOne().sort({ employeeId: -1 });
-    let newId = "ARSI001";
+    let employeeId = "ARSI001";
     if (lastEmployee && lastEmployee.employeeId) {
       const num = parseInt(lastEmployee.employeeId.replace("ARSI", "")) + 1;
-      newId = "ARSI" + num.toString().padStart(3, "0");
+      employeeId = "ARSI" + num.toString().padStart(3, "0");
     }
 
-    employeeData.employeeId = newId;
-    console.log("Generated employee ID:", newId);
-
-    const employee = new Employee(employeeData);
+    // Create employee
+    const employee = new Employee({
+      employeeId,
+      fullName,
+      email: normalizedEmail,
+      department,
+      position,
+      phone,
+      dateOfBirth: new Date(dateOfBirth),
+      hireDate: new Date(),
+      status: "active",
+      leaveBalance: 20,
+    });
     await employee.save();
-
     console.log("✅ Employee saved to database:", employee.fullName);
-    console.log("Employee ID:", employee._id);
 
-    res.status(201).json(employee);
+    // Create the login account. The User model hashes the password on save,
+    // so pass the plain password here (never hash it twice).
+    const initialPassword = req.body.password?.trim()
+      ? req.body.password.trim()
+      : "password123";
+
+    await User.create({
+      email: employee.email,
+      password: initialPassword,
+      role: "employee",
+      employeeId: employee._id,
+      isActive: true,
+    });
+    console.log("✅ Login account created for:", employee.email);
+
+    res.status(201).json({
+      success: true,
+      message: `Employee added. Login with ${employee.email} and password "${initialPassword}".`,
+      employee,
+    });
   } catch (error) {
-    console.error("❌ Error saving employee:", error.message);
-    res.status(400).json({ error: error.message });
-  }
-});
+    console.error("❌ Error adding employee:", error.message);
 
-// Create employee (admin only)
-router.post('/', async (req, res) => {
-    try {
-        console.log('📝 POST /api/employees called');
-        console.log('Request body:', req.body);
-        
-        const { fullName, email, department, position, phone, dateOfBirth } = req.body;
-        
-        // Validate required fields
-        if (!fullName || !email || !department || !position || !phone || !dateOfBirth) {
-            return res.status(400).json({ 
-                error: 'All fields are required: fullName, email, department, position, phone, dateOfBirth' 
-            });
-        }
-        
-        // Check if email already exists
-        const existingEmployee = await Employee.findOne({ email });
-        if (existingEmployee) {
-            return res.status(400).json({ error: 'Email already exists' });
-        }
-        
-        // Generate employee ID
-        const lastEmployee = await Employee.findOne().sort({ employeeId: -1 });
-        let employeeId = 'ARSI001';
-        if (lastEmployee && lastEmployee.employeeId) {
-            const num = parseInt(lastEmployee.employeeId.replace('ARSI', '')) + 1;
-            employeeId = 'ARSI' + num.toString().padStart(3, '0');
-        }
-        
-        console.log('Generated employee ID:', employeeId);
-        
-        // Create employee
-        const employee = new Employee({
-            employeeId,
-            fullName,
-            email,
-            department,
-            position,
-            phone,
-            dateOfBirth: new Date(dateOfBirth),
-            hireDate: new Date(),
-            status: 'active',
-            leaveBalance: 20
-        });
-        
-        await employee.save();
-        console.log('✅ Employee saved to database:', employee.fullName);
-        
-        // Also create user account for login
-        const bcrypt = require('bcryptjs');
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('password123', salt);
-        
-        const user = new User({
-            email: employee.email,
-            password: hashedPassword,
-            role: 'employee',
-            employeeId: employee._id,
-            isActive: true
-        });
-        
-        await user.save();
-        console.log('✅ User account created');
-        
-        res.status(201).json({
-            success: true,
-            message: 'Employee added successfully',
-            employee: employee
-        });
-        
-    } catch (error) {
-        console.error('❌ Error adding employee:', error.message);
-        console.error('Full error:', error);
-        
-        if (error.name === 'ValidationError') {
-            const errors = Object.values(error.errors).map(err => err.message);
-            return res.status(400).json({ error: errors.join(', ') });
-        }
-        
-        res.status(500).json({ error: 'Internal server error' });
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({ error: errors.join(", ") });
     }
+
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // Update employee

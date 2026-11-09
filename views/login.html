@@ -3,124 +3,301 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arsi University - HR Management System</title>
-    <!-- Google Fonts -->
+    <title>Staff Sign In - Arsi University HRMS</title>
+    <script>
+      // Legacy links used /login#helpdesk; the helpdesk now lives on the gateway page.
+      if (window.location.hash === "#helpdesk") {
+        window.location.replace("/gateway#helpdesk");
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/auth-ui.css" />
   </head>
-  <body>
-    <div class="login-container">
-      <div class="login-card">
-        <div class="login-header">
-          <div class="logo">
-            <i class="fas fa-university"></i>
+  <body class="au-body au-body--entry">
+    <header class="au-header">
+      <div class="au-header__inner">
+        <div class="au-brand">
+          <div class="au-brand__seal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z" />
+              <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" />
+              <path d="M21 8v6" />
+            </svg>
           </div>
-          <h1>Arsi University</h1>
-          <h2>Human Resource Management System</h2>
-          <p class="welcome-text">
-            Welcome back! Enter your credentials to access your account
-          </p>
+          <div>
+            <div class="au-brand__name">
+              <span>Arsi University</span>
+              <span class="au-brand__tag">Yuunivarsiitii Arsii</span>
+            </div>
+            <span class="au-brand__sub">Human Resource Management System (HRMS)</span>
+          </div>
         </div>
 
-        <form id="loginForm">
-          <div class="form-group">
-            <label for="email">
-              <i class="fas fa-envelope"></i> Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              class="form-control"
-              placeholder="you@arsi.edu"
-              required
-            />
+        <nav class="au-header__nav" aria-label="Portal">
+          <a class="is-active" aria-current="page" href="/login">Portal Login</a>
+          <a href="/gateway">Governance Gateway</a>
+          <a href="/gateway#helpdesk">Helpdesk</a>
+        </nav>
+
+        <div class="au-header__meta">
+          <div class="au-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+              <path d="M8 3v3M16 3v3M3 9.5h18" />
+            </svg>
+            <span>AY 2024/2025</span>
           </div>
-
-          <div class="form-group">
-            <label for="password"> <i class="fas fa-lock"></i> Password </label>
-            <div class="password-wrapper">
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                placeholder="••••••••"
-                required
-              />
-              <button type="button" class="toggle-password">
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
+          <div class="au-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3Z" />
+            </svg>
+            <span>EN / OM / AM</span>
           </div>
-
-          <div class="form-options">
-            <label class="checkbox">
-              <input type="checkbox" id="rememberMe" />
-              <span>Remember me</span>
-            </label>
-            <a href="#" class="forgot-password">Forgot password?</a>
-          </div>
-
-          <div id="errorMessage" class="error-message" style="display: none;"></div>
-
-          <button type="submit" class="btn btn-login">
-            <i class="fas fa-sign-in-alt"></i> Sign In
-          </button>
-        </form>
-
-        <div class="login-footer">
-          <p>© 2026 Arsi University. All rights reserved.</p>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Add floating particles for background -->
-    <div class="particles"></div>
+    <main class="au-entry-main">
+      <div class="au-entry">
+        <section class="au-entry__aside" aria-label="Portal overview">
+          <span class="au-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+            </svg>
+            Secure Staff Access
+          </span>
+          <h1 class="au-entry__title">Your staff record, one secure sign-in.</h1>
+          <p class="au-entry__lead">
+            The Arsi University HRMS is the official record for appointments,
+            payroll, leave and professional service. Sign in with your
+            institutional credentials to continue.
+          </p>
 
-    <!-- JavaScript -->
+          <ul class="au-entry__points">
+            <li class="au-entry__point">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="9" cy="8" r="3.2" />
+                <path d="M3 20c0-3.1 2.7-5.5 6-5.5s6 2.4 6 5.5" />
+                <path d="M16.5 5.4a3.2 3.2 0 0 1 0 5.4M18 14.9c2 .7 3 2.5 3 5.1" />
+              </svg>
+              <span>
+                <strong>Role-based workspaces</strong>
+                Administrators manage records while staff see only their own file.
+              </span>
+            </li>
+            <li class="au-entry__point">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                <path d="M8 3v3M16 3v3M3 9.5h18" />
+              </svg>
+              <span>
+                <strong>Leave and payroll self-service</strong>
+                Submit requests and follow approvals without paper forms.
+              </span>
+            </li>
+            <li class="au-entry__point">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4.5" y="10" width="15" height="10" rx="2.5" />
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" />
+              </svg>
+              <span>
+                <strong>Audited, encrypted sessions</strong>
+                Every sign-in is logged against the institutional security policy.
+              </span>
+            </li>
+          </ul>
+
+          <a class="au-entry__gateway" href="/gateway">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 10 12 4l9 6" />
+              <path d="M5 10v9h14v-9M9.5 19v-5h5v5" />
+            </svg>
+            <span style="flex: 1">
+              <strong>Institutional Staff Governance Gateway</strong>
+              <small>Governance scope, service standards and HR helpdesk →</small>
+            </span>
+          </a>
+        </section>
+
+        <section class="au-card au-entry__card" aria-label="Sign in">
+          <div>
+            <div class="au-card__top">
+              <span class="au-card__kicker">Academic SSO Access</span>
+              <span class="au-tag">256-Bit SSL</span>
+            </div>
+            <h2>Staff Account Sign In</h2>
+            <p class="au-card__lead">
+              Welcome back. Enter your institutional credentials to access your
+              faculty or staff account.
+            </p>
+          </div>
+
+          <form id="loginForm" class="au-form" novalidate>
+            <div class="au-field">
+              <div class="au-field__row">
+                <label class="au-label" for="email">University Email Address</label>
+                <span class="au-hint">Institutional domain required</span>
+              </div>
+              <div class="au-input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="2.5" />
+                  <path d="m3.5 7 8.5 6 8.5-6" />
+                </svg>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="faculty.member@arsi.edu"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="au-field">
+              <div class="au-field__row">
+                <label class="au-label" for="password">Account Password</label>
+                <p class="au-caps" id="capsLockWarning">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m6 10 6-6 6 6M12 4v9M8 20h8" />
+                  </svg>
+                  CAPS LOCK is active
+                </p>
+              </div>
+              <div class="au-input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="4.5" y="10" width="15" height="10" rx="2.5" />
+                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" />
+                </svg>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="••••••••••••"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="au-input__action"
+                  id="togglePassword"
+                  aria-label="Show password"
+                >
+                  <svg id="passwordIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="au-options">
+              <label class="au-check">
+                <input type="checkbox" id="rememberMe" />
+                <span>Remember this device for 30 days</span>
+              </label>
+              <a class="au-link" href="/forgot-password">Forgot password?</a>
+            </div>
+
+            <div id="errorMessage" class="au-error" style="display: none"></div>
+
+            <button type="submit" class="au-submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="8" cy="15" r="4" />
+                <path d="m10.8 12.2 8.7-8.7M17 4l3 3M14.5 6.5l3 3" />
+              </svg>
+              <span>Sign In to Portal</span>
+            </button>
+          </form>
+
+          <div class="au-card__foot">
+            <strong>New faculty or staff member?</strong> Accounts are issued by
+            the HR Directorate. Contact
+            <a class="au-link" href="mailto:hrs@arsi.edu.et">hrs@arsi.edu.et</a>
+            or extension 402, or visit the
+            <a class="au-link" href="/gateway#helpdesk">helpdesk</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="au-footer">
+      <div class="au-footer__inner">
+        <div class="au-footer__links">
+          <a href="/gateway">Office of Human Resource Affairs</a>
+          <span aria-hidden="true">•</span>
+          <a href="/gateway#helpdesk">Support Helpdesk</a>
+          <span aria-hidden="true">•</span>
+          <a href="/gateway">Staff Handbook</a>
+          <span aria-hidden="true">•</span>
+          <a href="/gateway">Privacy Policy</a>
+        </div>
+        <div class="au-footer__meta">
+          <span>© 2026 Arsi University (Yuunivarsiitii Arsii). All rights reserved.</span>
+          <span class="au-footer__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            SOC-2 • National Education Data Protocol
+          </span>
+        </div>
+      </div>
+    </footer>
+
     <script src="/js/auth.js"></script>
-    <script src="/js/animations.js"></script>
     <script>
-      // Toggle password visibility
-      document
-        .querySelector(".toggle-password")
-        .addEventListener("click", function () {
-          const passwordInput = document.getElementById("password");
-          const icon = this.querySelector("i");
+      (function () {
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.getElementById("togglePassword");
+        const passwordIcon = document.getElementById("passwordIcon");
+        const capsWarning = document.getElementById("capsLockWarning");
+        const errorBox = document.getElementById("errorMessage");
 
-          if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-          } else {
-            passwordInput.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+        const eyeIcon =
+          '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" /><circle cx="12" cy="12" r="3" />';
+        const eyeOffIcon =
+          '<path d="M4 4l16 16" /><path d="M9.9 5.9A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17.7 17.7 0 0 1-3.4 4.2" /><path d="M6.2 7.8A17.6 17.6 0 0 0 2.5 12S6 18.5 12 18.5a9.7 9.7 0 0 0 4.1-.9" /><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />';
+
+        if (toggleBtn && passwordInput) {
+          toggleBtn.addEventListener("click", function () {
+            const show = passwordInput.type === "password";
+            passwordInput.type = show ? "text" : "password";
+            passwordIcon.innerHTML = show ? eyeOffIcon : eyeIcon;
+            toggleBtn.setAttribute(
+              "aria-label",
+              show ? "Hide password" : "Show password",
+            );
+          });
+        }
+
+        if (passwordInput && capsWarning) {
+          const updateCaps = function (event) {
+            const active =
+              event.getModifierState && event.getModifierState("CapsLock");
+            capsWarning.classList.toggle("is-visible", Boolean(active));
+          };
+          passwordInput.addEventListener("keyup", updateCaps);
+          passwordInput.addEventListener("blur", function () {
+            capsWarning.classList.remove("is-visible");
+          });
+        }
+
+        ["email", "password"].forEach(function (id) {
+          const field = document.getElementById(id);
+          if (field && errorBox) {
+            field.addEventListener("input", function () {
+              errorBox.style.display = "none";
+            });
           }
         });
-
-      // Add particle effect for background
-      function createParticles() {
-        const particles = document.querySelector(".particles");
-        for (let i = 0; i < 50; i++) {
-          const particle = document.createElement("div");
-          particle.className = "particle";
-          particle.style.left = `${Math.random() * 100}%`;
-          particle.style.top = `${Math.random() * 100}%`;
-          particle.style.animationDelay = `${Math.random() * 5}s`;
-          particles.appendChild(particle);
-        }
-      }
-      createParticles();
+      })();
     </script>
   </body>
 </html>

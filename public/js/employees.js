@@ -282,12 +282,13 @@ class EmployeeDirectory {
         body: JSON.stringify(employeeData),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to add employee");
+        throw new Error(data.error || "Failed to add employee");
       }
 
-      alert("Employee added successfully!");
+      alert(data.message || "Employee added successfully!");
 
       // Close modal
       const modal = document.getElementById("addEmployeeModal");

@@ -1,193 +1,239 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Profile - Arsi HR Hub</title>
+    <title>My Profile - Arsi University HRMS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="/css/auth-ui.css" />
+    <link rel="stylesheet" href="/css/dashboard-ui.css" />
   </head>
-  <body>
-    <div class="dashboard-container">
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="logo">
-          <h1>Arsi HR Hub</h1>
-          <p>HR Management System</p>
-        </div>
+  <body class="au-body">
+    <div class="au-app">
+      <aside class="au-sidebar">
+        <a class="au-sidebar__brand" href="/employee-dashboard" data-dashboard-link>
+          <span class="au-sidebar__seal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z" />
+              <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" />
+              <path d="M21 8v6" />
+            </svg>
+          </span>
+          <span>
+            <span class="au-sidebar__name">Arsi University</span>
+            <span class="au-sidebar__sub">HR Management System</span>
+          </span>
+        </a>
 
-        <div class="menu">
-          <a href="admin-dashboard.html" class="menu-item">
-            <i class="menu-icon fas fa-tachometer-alt"></i>
+        <nav class="au-nav" aria-label="Main navigation">
+          <span class="au-nav__label">Workspace</span>
+          <a href="/employee-dashboard" data-dashboard-link class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6" />
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6" />
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6" />
+            </svg>
             Dashboard
           </a>
           <a href="employee-directory.html" class="menu-item">
-            <i class="menu-icon fas fa-users"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="9" cy="8" r="3.2" />
+              <path d="M3 20c0-3.1 2.7-5.5 6-5.5s6 2.4 6 5.5" />
+              <path d="M16.5 5.4a3.2 3.2 0 0 1 0 5.4M18 14.9c2 .7 3 2.5 3 5.1" />
+            </svg>
             Employees
           </a>
           <a href="leave-management.html" class="menu-item">
-            <i class="menu-icon fas fa-calendar-alt"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+              <path d="M8 3v3M16 3v3M3 9.5h18" />
+            </svg>
             Leave Management
           </a>
+
+          <span class="au-nav__label">Account</span>
           <a href="profile.html" class="menu-item active">
-            <i class="menu-icon fas fa-user"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6" />
+            </svg>
             Profile
           </a>
-          <a href="#" id="logoutBtn" class="menu-item">
-            <i class="menu-icon fas fa-sign-out-alt"></i>
+          <a href="#" id="logoutBtn" class="menu-item menu-item--danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />
+              <path d="M10 8l-4 4 4 4M6 12h9" />
+            </svg>
             Sign Out
           </a>
-        </div>
-      </div>
+        </nav>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <div class="header">
-          <h2>My Profile</h2>
-          <p>View your personal information</p>
+        <div class="au-sidebar__foot">
+          <strong>Staff Self-Service</strong>
+          <span>Keep your contact and emergency details current.</span>
         </div>
+      </aside>
 
-        <!-- Profile Details -->
-        <div class="table-container">
-          <div id="profileInfo">
-            <!-- Profile data will be loaded here -->
-            <div style="text-align: center; padding: 40px; color: #666">
-              Loading profile information...
+      <div class="au-mainwrap">
+        <header class="au-topbar">
+          <div>
+            <span class="au-topbar__eyebrow">Account</span>
+            <h1>My Profile</h1>
+          </div>
+          <div class="au-topbar__meta">
+            <div class="au-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
+                <path d="M8 3v3M16 3v3M3 9.5h18" />
+              </svg>
+              <span>AY 2024/2025</span>
+            </div>
+            <div class="au-topbar__user">
+              <span class="au-avatar">AU</span>
+              <div>
+                <span class="au-topbar__name" id="userName">Employee</span>
+                <span class="au-topbar__role">Staff Account</span>
+              </div>
             </div>
           </div>
+        </header>
 
-          <div style="margin-top: 30px; display: flex; gap: 15px">
-            <button
-              id="editProfileBtn"
-              class="btn"
-              style="width: auto; padding: 10px 20px"
-            >
-              <i class="fas fa-edit"></i> Edit Profile
-            </button>
-            <button
-              onclick="window.location.href='change-password.html'"
-              class="btn"
-              style="width: auto; padding: 10px 20px; background: #666"
-            >
-              <i class="fas fa-key"></i> Change Password
-            </button>
-          </div>
-        </div>
+        <main class="au-content">
+          <section class="au-hero">
+            <div class="au-hero__body">
+              <div>
+                <span class="au-hero__badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="12" cy="8.5" r="3.5" />
+                    <path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6" />
+                  </svg>
+                  Personnel Record
+                </span>
+                <h2>Your Staff Profile</h2>
+                <p>
+                  Review the personal and employment details held in the central HR
+                  registry, and request corrections where needed.
+                </p>
+              </div>
+              <div class="au-hero__actions">
+                <button type="button" id="editProfileBtn" class="au-btn au-btn--primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 20h4l10-10-4-4L4 16v4Z" />
+                    <path d="m13.5 5.5 4 4" />
+                  </svg>
+                  Edit Profile
+                </button>
+                <a href="change-password.html" class="au-btn au-btn--ghost">Change Password</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="au-panel">
+            <div class="au-panel__head">
+              <div>
+                <h3>Profile Details</h3>
+                <p>As registered with the HR Directorate</p>
+              </div>
+            </div>
+            <div class="au-panel__body" id="profileInfo">
+              <p class="no-data">Loading profile information…</p>
+            </div>
+          </section>
+        </main>
+
+        <footer class="au-dashfoot">
+          <span class="au-dashfoot__strong">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 5 6v6c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V6l-7-3Z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            AES-256 Registry Crypt
+          </span>
+          <span>© 2026 Arsi University • HRMS v4.2.1-LTS</span>
+        </footer>
       </div>
     </div>
 
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="modal">
       <div class="modal-content">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-          "
-        >
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px">
           <h3>Edit Profile</h3>
-          <button class="modal-close">&times;</button>
+          <button type="button" class="modal-close" aria-label="Close">&times;</button>
         </div>
 
         <form id="editProfileForm">
-          <div
-            style="
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 15px;
-              margin-bottom: 15px;
-            "
-          >
-            <div class="form-group">
-              <label>Full Name</label>
-              <input type="text" name="fullName" class="form-control" />
+          <div class="au-formgrid">
+            <div class="au-field">
+              <label class="au-label" for="editFullName">Full Name</label>
+              <input id="editFullName" type="text" name="fullName" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editEmail">Email</label>
+              <input id="editEmail" type="email" name="email" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" name="phone" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editPhone">Phone</label>
+              <input id="editPhone" type="tel" name="phone" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Date of Birth</label>
-              <input type="date" name="dateOfBirth" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editDob">Date of Birth</label>
+              <input id="editDob" type="date" name="dateOfBirth" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Department</label>
-              <select name="department" class="form-control">
-                <option value="">Select Department</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Business Administration">
-                  Business Administration
-                </option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Engineering">Engineering</option>
-                <option value="Natural Sciences">Natural Sciences</option>
-              </select>
+            <div class="au-field">
+              <label class="au-label" for="editDepartment">Department</label>
+              <div class="au-select" style="flex: 1 1 auto; width: 100%">
+                <select id="editDepartment" name="department" class="au-control">
+                  <option value="">Select Department</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Business Administration">Business Administration</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Natural Sciences">Natural Sciences</option>
+                </select>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </div>
             </div>
-            <div class="form-group">
-              <label>Position</label>
-              <input type="text" name="position" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editPosition">Position</label>
+              <input id="editPosition" type="text" name="position" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Emergency Contact Name</label>
-              <input type="text" name="emergencyName" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editEmergencyName">Emergency Contact Name</label>
+              <input id="editEmergencyName" type="text" name="emergencyName" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Emergency Contact Phone</label>
-              <input type="tel" name="emergencyPhone" class="form-control" />
+            <div class="au-field">
+              <label class="au-label" for="editEmergencyPhone">Emergency Contact Phone</label>
+              <input id="editEmergencyPhone" type="tel" name="emergencyPhone" class="au-control" />
             </div>
-            <div class="form-group">
-              <label>Emergency Contact Relationship</label>
-              <input
-                type="text"
-                name="emergencyRelationship"
-                class="form-control"
-              />
+            <div class="au-field">
+              <label class="au-label" for="editEmergencyRelationship">Emergency Contact Relationship</label>
+              <input id="editEmergencyRelationship" type="text" name="emergencyRelationship" class="au-control" />
             </div>
-            <div class="form-group" style="grid-column: span 2">
-              <label>Address</label>
-              <textarea name="address" class="form-control" rows="2"></textarea>
+            <div class="au-field au-formgrid--full">
+              <label class="au-label" for="editAddress">Address</label>
+              <textarea id="editAddress" name="address" class="au-control au-control--area" rows="2"></textarea>
             </div>
           </div>
 
-          <div
-            style="
-              margin-top: 20px;
-              display: flex;
-              gap: 10px;
-              justify-content: flex-end;
-            "
-          >
+          <div class="au-actions">
             <button
               type="button"
-              class="btn"
-              style="background: #666; width: auto"
+              class="au-btn au-btn--soft"
               onclick="document.getElementById('editProfileModal').style.display='none'"
             >
               Cancel
             </button>
-            <button type="submit" class="btn" style="width: auto">
-              Save Changes
-            </button>
+            <button type="submit" class="au-btn au-btn--primary">Save Changes</button>
           </div>
         </form>
       </div>
