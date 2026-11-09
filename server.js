@@ -7,6 +7,28 @@ const cors = require("cors");
 
 const app = express();
 
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/hr_system";
+
+let dbPromise = null;
+
+async function connectDb() {
+  if (mongoose.connection.readyState === 1) return;
+  if (mongoose.connection.readyState === 2 && dbPromise) {
+    await dbPromise;
+    return;
+  }
+
+  dbPromise = mongoose
+    .connect(MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
+    .catch((err) => {
+      dbPromise = null;
+      throw err;
+    });
+
+  await dbPromise;
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -23,6 +45,26 @@ app.use(
     cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
   }),
 );
+
+// Connect lazily for API requests that need MongoDB. On Vercel the function
+// must not exit while waiting for a database, so API calls return a clean
+// 503 and the HTML pages still load if the database is down.
+const noDbApiPaths = new Set(["/api/auth/check", "/api/auth/logout"]);
+app.use(async (req, res, next) => {
+  if (!req.path.startsWith("/api/") || noDbApiPaths.has(req.path)) {
+    return next();
+  }
+
+  try {
+    await connectDb();
+    return next();
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err.message);
+    return res
+      .status(503)
+      .json({ error: "Database is unavailable. Check MONGODB_URI." });
+  }
+});
 
 // ⭐⭐⭐ IMPORTANT: REQUIRE ROUTES CORRECTLY ⭐⭐⭐
 const authRoutes = require("./routes/auth");
@@ -122,8 +164,6 @@ app.get("/change-password", (req, res) => {
 
 // Other route handlers for HTML files...
 const PORT = process.env.PORT || 8000;
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/hr_system";
 
 function startServer() {
   const server = app.listen(PORT, () => {
@@ -148,12 +188,12 @@ function startServer() {
   });
 }
 
-// Connect to MongoDB *before* accepting requests. Otherwise Mongoose buffers
-// every query and they fail with "buffering timed out after 10000ms" when the
-// database is unreachable or rejects the credentials.
+// For local development or a long-running Node host, connect and seed before
+// listening. On Vercel the same file is imported as a serverless function, so
+// it must export the app instead of starting a listener or exiting the process.
 async function start() {
   try {
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
+    await connectDb();
     console.log("✅ Connected to MongoDB");
   } catch (err) {
     console.error("❌ MongoDB connection error:", err.message);
@@ -170,4 +210,8 @@ async function start() {
   startServer();
 }
 
-start();
+if (require.main === module) {
+  start();
+}
+
+module.exports = app;
